@@ -1,5 +1,6 @@
 -- | Parsers for strings in various formats.
 module Text.MultipartNames.Parsers(
+    parseHyphenated,
     parseLowerCamel,
     parseLowerHyphenated,
     parseLowerUnderscored,
@@ -61,6 +62,18 @@ parseUnderscored str = case parse pUnderscored undefined str of
     pUnderscored = do
 		      ls <- pSegment
 		      uss <- many pUnderscoredSegment
+		      eof
+		      return $ mkMultipartName (ls : uss)
+
+-- | Parse a Case_Insensitive_Hyphenated 'String'.
+parseHyphenated :: String -> Maybe MultipartName
+parseHyphenated str = case parse pHyphenated undefined str of
+			  Left _ -> Nothing
+			  Right nm -> Just nm
+    where
+    pHyphenated = do
+		      ls <- pSegment
+		      uss <- many pHyphenatedSegment
 		      eof
 		      return $ mkMultipartName (ls : uss)
 
@@ -134,6 +147,9 @@ pUnderscoredSegment = char '_' >> pSegment
 
 pUpperUnderscoredSegment :: P String
 pUpperUnderscoredSegment = char '_' >> pUpperSegment
+
+pHyphenatedSegment :: P String
+pHyphenatedSegment = char '-' >> pSegment
 
 pLowerHyphenatedSegment :: P String
 pLowerHyphenatedSegment = char '-' >> pLowerSegment

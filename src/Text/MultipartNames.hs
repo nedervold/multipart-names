@@ -7,14 +7,26 @@ module Text.MultipartNames(
     -- * Query
     toSegments,
     -- * Display
-    module Text.MultipartNames.Show,
+    -- ** camel-case
+    showLowerCamel,
+    showUpperCamel,
+    -- ** hyphenated
+    showLowerHyphenated,
+    showUpperHyphenated,
+    -- ** underscored
+    showLowerUnderscored,
+    showUpperUnderscored,
     -- * Prisms
+    -- ** camel-case
     _LowerCamel,
-    _LowerHyphenated,
-    _LowerUnderscored,
-    _Underscored,
     _UpperCamel,
+    -- ** hyphenated
+    _Hyphenated,
+    _LowerHyphenated,
     _UpperHyphenated,
+    -- ** underscored
+    _Underscored,
+    _LowerUnderscored,
     _UpperUnderscored
     ) where
 
@@ -42,6 +54,11 @@ _LowerHyphenated = prism' showLowerHyphenated parseLowerHyphenated
 -- 'MultipartName's.
 _UpperHyphenated :: Prism' String MultipartName
 _UpperHyphenated = prism' showUpperHyphenated parseUpperHyphenated
+
+-- | A 'Prism'' to convert case-insensitive-hyphenated 'String's to
+-- 'MultipartName's.
+_Hyphenated :: Prism' String MultipartName
+_Hyphenated = prism' showLowerHyphenated parseHyphenated
 
 -- | A 'Prism'' to convert lower_underscored 'String's to
 -- 'MultipartName's.
