@@ -1,9 +1,11 @@
 -- | Parsers for strings in various formats.
 module Text.MultipartNames.Parsers(
     parseLowerCamel,
+    parseLowerHyphenated,
     parseLowerUnderscored,
     parseUnderscored,
     parseUpperCamel,
+    parseUpperHyphenated,
     parseUpperUnderscored
     ) where
 
@@ -50,7 +52,7 @@ parseLowerUnderscored str = case parse pLowerUnderscored undefined str of
 		      eof
 		      return $ mkMultipartName (ls : uss)
 
--- | Parse a Case_Insensitively_Underscored 'String'.
+-- | Parse a Case_Insensitive_Underscored 'String'.
 parseUnderscored :: String -> Maybe MultipartName
 parseUnderscored str = case parse pUnderscored undefined str of
 			  Left _ -> Nothing
@@ -71,6 +73,30 @@ parseUpperUnderscored str = case parse pUpperUnderscored undefined str of
     pUpperUnderscored = do
 		      ls <- pUpperSegment
 		      uss <- many pUpperUnderscoredSegment
+		      eof
+		      return $ mkMultipartName (ls : uss)
+
+-- | Parse a lower-hyphenated 'String'.
+parseLowerHyphenated :: String -> Maybe MultipartName
+parseLowerHyphenated str = case parse pLowerHyphenated undefined str of
+			  Left _ -> Nothing
+			  Right nm -> Just nm
+    where
+    pLowerHyphenated = do
+		      ls <- pLowerSegment
+		      uss <- many pLowerHyphenatedSegment
+		      eof
+		      return $ mkMultipartName (ls : uss)
+
+-- | Parse a UPPER-HYPHENATED 'String'.
+parseUpperHyphenated :: String -> Maybe MultipartName
+parseUpperHyphenated str = case parse pUpperHyphenated undefined str of
+			  Left _ -> Nothing
+			  Right nm -> Just nm
+    where
+    pUpperHyphenated = do
+		      ls <- pUpperSegment
+		      uss <- many pUpperHyphenatedSegment
 		      eof
 		      return $ mkMultipartName (ls : uss)
 
@@ -98,7 +124,7 @@ pUpperCamelSegment :: P String
 pUpperCamelSegment = do
 		    c <- satisfy isAsciiUpper
 		    cs <- many (satisfy isAsciiLowerOrNum)
-		    return (c : cs)
+                    return (c : cs)
 
 pLowerUnderscoredSegment :: P String
 pLowerUnderscoredSegment = char '_' >> pLowerSegment
@@ -108,6 +134,12 @@ pUnderscoredSegment = char '_' >> pSegment
 
 pUpperUnderscoredSegment :: P String
 pUpperUnderscoredSegment = char '_' >> pUpperSegment
+
+pLowerHyphenatedSegment :: P String
+pLowerHyphenatedSegment = char '-' >> pLowerSegment
+
+pUpperHyphenatedSegment :: P String
+pUpperHyphenatedSegment = char '-' >> pUpperSegment
 
 -- Predicates
 

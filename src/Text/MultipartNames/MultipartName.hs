@@ -2,7 +2,7 @@
 module Text.MultipartNames.MultipartName(
     MultipartName,
     mkMultipartName,
---    mkMultipartNameFromSegments,
+    mkMultipartNameFromWords,
     isLegalSegment,
     toSegments
     ) where
@@ -16,16 +16,11 @@ import Data.Char(isAscii, isLetter)
 -- character of each segment must be a cased letter.  For now, we only
 -- allow ASCII.	 In the future, we may expand to Unicode.
 newtype MultipartName = MultipartName {
-    toSegments :: [CI String]    -- ^ returns the segments of the name
+    toSegments :: [CI String]	 -- ^ Returns the segments of the name
     }
     deriving (Eq, Ord)
 
-{-
-instance Show MultipartName where
-    show = show .
--}
-
--- | Create a multipart name from its segments.
+-- | Creates a multipart name from its segments.
 mkMultipartName :: [String] -> MultipartName
 mkMultipartName ss
     | null ss		= error "mkMultipartName []: argument cannot be null"
@@ -36,10 +31,11 @@ mkMultipartName ss
     msg = "mkMultipartName " ++ show ss
 			     ++ ": all segments must start with a cased letter"
 
-{-
-mkMultipartNameFromSegments :: String -> MultipartName
-mkMultipartNameFromSegments = mkMultipartName . words
--}
+
+-- | Creates a multipart name from words.  Equivalent to
+-- @mkMultipartName . words@.
+mkMultipartNameFromWords :: String -> MultipartName
+mkMultipartNameFromWords = mkMultipartName . words
 
 -- | Is this string a legal segment for a 'MultipartName'?
 isLegalSegment :: String -> Bool

@@ -1,14 +1,20 @@
 -- | Multipart names and 'Prism's for them.
 module Text.MultipartNames(
-    -- * Creation
-    module Text.MultipartNames.MultipartName,
+    -- * Construction
+    mkMultipartName,
+    mkMultipartNameFromWords,
+    isLegalSegment,
+    -- * Query
+    toSegments,
     -- * Display
     module Text.MultipartNames.Show,
     -- * Prisms
     _LowerCamel,
+    _LowerHyphenated,
     _LowerUnderscored,
     _Underscored,
     _UpperCamel,
+    _UpperHyphenated,
     _UpperUnderscored
     ) where
 
@@ -27,6 +33,16 @@ _LowerCamel = prism' showLowerCamel parseLowerCamel
 _UpperCamel :: Prism' String MultipartName
 _UpperCamel = prism' showUpperCamel parseUpperCamel
 
+-- | A 'Prism'' to convert lower-hyphenated 'String's to
+-- 'MultipartName's.
+_LowerHyphenated :: Prism' String MultipartName
+_LowerHyphenated = prism' showLowerHyphenated parseLowerHyphenated
+
+-- | A 'Prism'' to convert UPPER-HYPHENATED 'String's to
+-- 'MultipartName's.
+_UpperHyphenated :: Prism' String MultipartName
+_UpperHyphenated = prism' showUpperHyphenated parseUpperHyphenated
+
 -- | A 'Prism'' to convert lower_underscored 'String's to
 -- 'MultipartName's.
 _LowerUnderscored :: Prism' String MultipartName
@@ -37,7 +53,7 @@ _LowerUnderscored = prism' showLowerUnderscored parseLowerUnderscored
 _UpperUnderscored :: Prism' String MultipartName
 _UpperUnderscored = prism' showUpperUnderscored parseUpperUnderscored
 
--- | A 'Prism'' to convert Case_Insensitively_Underscored 'String's to
+-- | A 'Prism'' to convert Case_Insensitive_Underscored 'String's to
 -- 'MultipartName's.
 _Underscored :: Prism' String MultipartName
 _Underscored = prism' showUpperUnderscored parseUnderscored
