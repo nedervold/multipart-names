@@ -24,7 +24,9 @@ Library
   HS-Source-Dirs:       src
   GHC-Options:          -Wall
   Exposed-Modules:      Text.MultipartNames
---   Other-Modules:        Text.MultipartNames.Internal
+  Other-Modules:        Text.MultipartNames.MultipartName
+                      , Text.MultipartNames.Parsers
+                      , Text.MultipartNames.Show
   Build-Depends:        base >= 4 && < 5
                       , case-insensitive == 1.2.*
                       , lens == 4.8.*

@@ -1,34 +1,44 @@
--- | Multipart names.
-module Text.MultipartNames where
+-- | Multipart names and 'Prism's for them.
+module Text.MultipartNames(
+    -- * Creation
+    module Text.MultipartNames.MultipartName,
+    -- * Display
+    module Text.MultipartNames.Show,
+    -- * Prisms
+    _LowerCamel,
+    _LowerUnderscored,
+    _Underscored,
+    _UpperCamel,
+    _UpperUnderscored
+    ) where
 
--- import Control.Lens
-import Data.CaseInsensitive(CI)
-import qualified Data.CaseInsensitive as CI
-import Data.Char(isAscii, isLetter)
+import Control.Lens
+import Text.MultipartNames.MultipartName
+import Text.MultipartNames.Parsers
+import Text.MultipartNames.Show
 
--- | An opaque type that represents a multipart name.  The initial
--- character of each segment must be a cased letter.  For now, we only
--- allow ASCII.	 In the future, we may expand to Unicode.
-newtype MultipartName = MultipartName [CI String]
-    deriving (Eq, Ord)
+-- | A 'Prism'' to convert lowerCamelCased 'String's to
+-- 'MultipartName's.
+_LowerCamel :: Prism' String MultipartName
+_LowerCamel = prism' showLowerCamel parseLowerCamel
 
-{-
-instance Show MultipartName where
-    show = show .
--}
+-- | A 'Prism'' to convert UpperCamelCased 'String's to
+-- 'MultipartName's.
+_UpperCamel :: Prism' String MultipartName
+_UpperCamel = prism' showUpperCamel parseUpperCamel
 
--- | Create a multipart name from its segments.
-mkMultipartName :: [String] -> MultipartName
-mkMultipartName ss
-    | null ss		= error "mkMultipartName []: argument cannot be null"
-    | all legalSegment ss = MultipartName $ map CI.mk ss
-    | otherwise		= error msg
-    where
-    legalSegment seg = case seg of
-	[] -> False
-	c : _ -> isAscii c && isLetter c
-    msg = "mkMultipartName " ++ show ss
-			     ++ ": all segments must start with a cased letter"
+-- | A 'Prism'' to convert lower_underscored 'String's to
+-- 'MultipartName's.
+_LowerUnderscored :: Prism' String MultipartName
+_LowerUnderscored = prism' showLowerUnderscored parseLowerUnderscored
 
-mkMultipartNameFromWords :: String -> MultipartName
-mkMultipartNameFromWords = mkMultipartName . words
+-- | A 'Prism'' to convert UPPER_UNDERSCORED 'String's to
+-- 'MultipartName's.
+_UpperUnderscored :: Prism' String MultipartName
+_UpperUnderscored = prism' showUpperUnderscored parseUpperUnderscored
+
+-- | A 'Prism'' to convert Case_Insensitively_Underscored 'String's to
+-- 'MultipartName's.
+_Underscored :: Prism' String MultipartName
+_Underscored = prism' showUpperUnderscored parseUnderscored
+
