@@ -4,10 +4,19 @@ Author:                 Eric Nedervold<nedervoldsoftware@gmail.com>
 Maintainer:             Eric Nedervold<nedervoldsoftware@gmail.com>
 License:                BSD3
 License-File:           LICENSE
+Stability:              alpha
+Homepage:               http://github.com/nedervold/multipart-names
+Bug-Reports:            http://github.com/nedervold/multipart-names/issues
 Copyright:              (c) 2015 Eric Nedervold
--- Synopsis:
--- Description:
+Synopsis:               Handling of multipart-names in various casings
+Description:
+
+    Handles multipart names with conversion between casing styles
+    including UpperCamelCase, lowerCamelCase, UPPER_UNDERSCORE, and
+    lower_underscore.
+
 Cabal-Version:          >= 1.10
+Category:               Data
 Build-Type:             Simple
 
 Library

@@ -1,7 +1,7 @@
 # multipart-names
 
-Handles conversion of multipart names between casing styles including
-UpperCamelCase, lowerCamelCase, UPPER_UNDERSCORE, and
+Handles multipart names with conversion between casing styles
+including UpperCamelCase, lowerCamelCase, UPPER_UNDERSCORE, and
 lower_underscore.
 
 ## Installation
