@@ -6,5 +6,5 @@ import Test.HUnit(assertEqual)
 
 tests :: Test
 tests = testCase "dummy test" $ assertEqual "True is true"
-						True
-						True
+		                                True
+                                                True
