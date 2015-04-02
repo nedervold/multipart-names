@@ -13,12 +13,14 @@ import qualified Data.CaseInsensitive as CI
 import Data.Char(isAscii, isLetter)
 
 -- | An opaque type that represents a multipart name.  The initial
--- character of each segment must be a cased letter.  For now, we only
--- allow ASCII.	 In the future, we may expand to Unicode.
-newtype MultipartName = MultipartName {
-    toSegments :: [CI String]	 -- ^ Returns the segments of the name
-    }
-    deriving (Eq, Ord)
+-- character of each segment must be a cased letter.  Currently, only
+-- ASCII is allowed.
+newtype MultipartName = MultipartName [CI String]
+    deriving (Eq, Ord, Show)
+
+-- | Returns the segments of the name
+toSegments :: MultipartName -> [CI String]
+toSegments (MultipartName ss) = ss
 
 -- | Creates a multipart name from its segments.
 mkMultipartName :: [String] -> MultipartName
@@ -30,7 +32,6 @@ mkMultipartName ss
     where
     msg = "mkMultipartName " ++ show ss
 			     ++ ": all segments must start with a cased letter"
-
 
 -- | Creates a multipart name from words.  Equivalent to
 -- @mkMultipartName . words@.

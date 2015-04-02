@@ -1,5 +1,5 @@
 Name:                   multipart-names
-Version:                0.0.0
+Version:                0.0.1
 Author:                 Eric Nedervold<nedervoldsoftware@gmail.com>
 Maintainer:             Eric Nedervold<nedervoldsoftware@gmail.com>
 License:                BSD3
@@ -8,7 +8,7 @@ Stability:              alpha
 Homepage:               http://github.com/nedervold/multipart-names
 Bug-Reports:            http://github.com/nedervold/multipart-names/issues
 Copyright:              (c) 2015 Eric Nedervold
-Synopsis:               Handling of multipart-names in various casings
+Synopsis:               Handling of multipart names in various casing styles
 Description:
 
     Handles multipart names with conversion between casing styles
@@ -41,8 +41,10 @@ Test-Suite test
   Other-Modules:        Text.MultipartNamesTests
   Build-Depends:        base
                       , HUnit
+                      , multipart-names
                       , test-framework
                       , test-framework-hunit
+                      , lens == 4.8.*
 
 Source-Repository head
   Type:                 git

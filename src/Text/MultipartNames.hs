@@ -1,5 +1,7 @@
 -- | Multipart names and 'Prism's for them.
 module Text.MultipartNames(
+    -- * Type
+    MultipartName,
     -- * Construction
     mkMultipartName,
     mkMultipartNameFromWords,
