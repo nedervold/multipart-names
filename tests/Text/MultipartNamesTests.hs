@@ -27,10 +27,10 @@ tests = testCase "Text.MultipartNames" $ do
     mapM_ toString tab
 
     where
-    toName (tag, str, p, _cased) = do
-	assertEqual (tag ++ " string to name") (Just nm) (preview p str)
-    toString (tag, str, p, cased) = do
-	assertEqual' cased (tag ++ " name to string") str (review p nm)
+    toName (tag, str, p, _cased)
+	= assertEqual (tag ++ " string to name") (Just nm) (preview p str)
+    toString (tag, str, p, cased)
+	= assertEqual' cased (tag ++ " name to string") str (review p nm)
 
     assertEqual' cased msg expected actual = if cased
 	then assertEqual msg expected actual

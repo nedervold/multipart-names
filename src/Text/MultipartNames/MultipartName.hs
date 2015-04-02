@@ -14,7 +14,7 @@ import Data.Char(isAscii, isLetter)
 
 -- | An opaque type that represents a multipart name.  The initial
 -- character of each segment must be a cased letter.  Currently, only
--- ASCII is allowed.
+-- ASCII letters are allowed as first characters of segments.
 newtype MultipartName = MultipartName [CI String]
     deriving (Eq, Ord, Show)
 
